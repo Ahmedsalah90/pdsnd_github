@@ -6,12 +6,12 @@ CITY_DATA = { 'chicago': 'chicago.csv',
               'new york city': 'new_york_city.csv',
               'washington': 'washington.csv' }
 
+#this function for recieving your input
 
- 
 city = (input("kindly inter the name of the city you want to analyse^_^:")).lower()
 if city not in ['chicago', 'new york city', 'washington']:
     print('Sorry, city does not exist,kindly expilictly choose one of the following cities(chicago/new york city/washinton')
-    city = (input("kindly inter the name of the city you want to analyse^_^")).lower()  
+    city = (input("kindly inter the name of the city you want to analyse^_^")).lower()
 month = (input("kindly inter the name of the month you want to analyse^_^:")).lower()
 if month not in ['january', 'february', 'March', 'may', 'june', 'july']:
     print('Sorry, month does not exist,kindly try again')
@@ -21,13 +21,13 @@ if day not in ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday',
     print('Sorry, day does not exist,kindly try again')
     day = (input("kindly inter the name of the day you want to analyse^_^: ")).lower()
 print('Hello! Let\'s explore some US bikeshare data!')
-  
+
 
 
 def load_data(city, month, day):
-   
+
     df = pd.read_csv(CITY_DATA[city])
-    
+
     df['Start Time']=pd.to_datetime(df['Start Time'])
 
 
@@ -35,22 +35,22 @@ def load_data(city, month, day):
     df['week'] = df['Start Time'].dt.weekofyear
     df['day_of_week'] = df['Start Time'].dt.weekday_name
 
-   
+
     if month != 'all':
-      
+
         months = ['january', 'february', 'march', 'april', 'may', 'june']
         month = months.index(month) + 1
 
-        
+
         df = df[df['month'] == month]
 
-    
+
     if day != 'all':
-        
+
         df = df[df['day_of_week'] == day.title()]
 
         return df
-
+# this function to Calculating time stats
 def time_stats(df2):
     print('\nCalculating The Most Frequent Times of Travel...\n')
     start_time = time.time()
@@ -67,18 +67,18 @@ def time_stats(df2):
 time_stats(load_data(city, month, day))
 print(time_stats)
 def station_stats(df3):
-   
+
     print('\nCalculating The Most Popular Stations and Trip...\n')
     start_time = time.time()
     df3 = load_data(city, month, day)
     popular_start_station = df3['Start Station'].mode()[0]
     popular_End_station= df3['End Station'].mode()[0]
-  
+
     df3['frequency'] = df3['End Station']
     end_start_station = df3.groupby(['Start Station', 'End Station']).agg({'frequency': 'count'})
     most_popular_combo = end_start_station[ end_start_station['frequency'] == end_start_station['frequency'].max() ]
-   
-   
+
+
     print('Most Popular  Start Station:', popular_start_station)
     print('Most Popular  End Station:', popular_End_station)
     print('Most Popular  Start-End Stations Combonation:', most_popular_combo)
@@ -101,7 +101,7 @@ trip_duration_stats(load_data(city, month, day))
 print(station_stats)
 
 def user_stats(df5):
-   
+
     print('\nCalculating User Stats...\n')
     start_time = time.time()
     user_types = df5['User Type'].value_counts()
@@ -140,6 +140,6 @@ def raw_data_display(df6):
         print('Sorry, please choose Yes/No')
         raw_data = (input("Do you want to see five rows of raw data Yes/No:")).lower()
 
-     
-     
+
+
 raw_data_display(load_data(city, month, day))
