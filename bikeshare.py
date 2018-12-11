@@ -50,7 +50,7 @@ def load_data(city, month, day):
         df = df[df['day_of_week'] == day.title()]
 
         return df
-
+# this function to Calculating time stats
 def time_stats(df2):
     print('\nCalculating The Most Frequent Times of Travel...\n')
     start_time = time.time()
